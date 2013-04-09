@@ -11,8 +11,8 @@ public class GUI_PlayGame implements ActionListener
     private JLabel label3;
     private HangmanGame game;
     private char InputLetter;
-    private boolean IsEvil = true;
-    private JLabel result;
+    protected boolean IsEvil = true;
+    protected JLabel result;
 
 
     public GUI_PlayGame(int letters, int guesses)
@@ -26,7 +26,6 @@ public class GUI_PlayGame implements ActionListener
      * opens a new window.
      */
     public void show() {
-
     	frame = new JFrame("Evil Hangman");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(360,370));
@@ -34,26 +33,20 @@ public class GUI_PlayGame implements ActionListener
         frame.setResizable(false);
         
         label1 = new JLabel("Let's play Evil Hangman!");
-        
         label2 = new JLabel("Secret Word: "+game.displayGameState());
         label2.setFont(new Font("Default",Font.PLAIN,23));
-       
         label3 = new JLabel(String.valueOf("Guesses Remaining: "+ game.numGuessesRemaining() +"\n"));
         result = new JLabel("");
         result.setForeground(Color.red);
         
-        
         //this generates an image
         ImageIcon icon = new ImageIcon("blank.gif"); 
         JLabel hangmanPic = new JLabel(icon);
-
+        
         frame.add(label1);
         frame.add(label2);
         frame.add(label3);
-
-
         frame.add(result);
-        
         frame.add(hangmanPic);
         
         //add user choice
@@ -65,11 +58,9 @@ public class GUI_PlayGame implements ActionListener
             frame.add(tempBtn);
             
         }
-        
         frame.setResizable(false);
         frame.setVisible(true);
     }
-    
     /*
      * This is called when the user clicks any of the buttons in the UI.
      */
@@ -80,57 +71,9 @@ public class GUI_PlayGame implements ActionListener
         temp.setEnabled(false);
         InputLetter = temp.getText().charAt(0);
         check(InputLetter); // make sure it's a valid choice
-        controller();
+        game.controller(InputLetter, IsEvil, this);
     }
-
     
-    /*
-     * This handles the logic of sending info to the Game object.
-     */
-    public void controller()
-    {
-        //handle the user choice, and pass the data to the model
-        char nextLetter = Character.toUpperCase(InputLetter);
-
-        if(game.makeGuess(nextLetter))
-        {
-            if(IsEvil)//judge whether the hangman is evil
-            {
-                //if in the evil statement, and the user guess right, 
-            	// it means it is the time to turn the evil to the regular hangmam
-                result.setText("Yes!");
-                String RealSecretString = game.getSecretWord();
-                int GuessRemaining = game.numGuessesRemaining();
-                String LetterHistory = game.lettersGuessed();
-                game = new NormalHangMan(RealSecretString, GuessRemaining,LetterHistory);//turn the evil to regular hangman
-                IsEvil = false;
-                game.makeGuess(nextLetter);//re-value the user guess when turn to the regular hangman for the first time
-            }
-            else
-            {
-                result.setText("Yes!");
-            }
-        }
-        else
-        {
-            result.setText("Nope!");
-        }
-
-        label2.setText("Secret Word: "+game.displayGameState());
-        label3.setText(String.valueOf("Guesses Remaining: "+ game.numGuessesRemaining()));
-        if(game.gameOver())
-        {
-            if(game.isWin())
-            {
-                new GUI_Winner(game.displayGameState(),frame);
-            }
-            else
-            {
-                new GUI_Loser(game.getSecretWord(),frame);
-            }
-        }
-    }
-
     public boolean check(char input)
     {
         //do the input check. Player can just input the English letters.
@@ -139,5 +82,29 @@ public class GUI_PlayGame implements ActionListener
         else
             return false;
     }
+    
+    public void setResult(String res){
+    	result.setText(res);
+    }
+    public void setIsEvil(Boolean evil){
+    	IsEvil = evil;
+    }
+    
+    public void setGame(HangmanGame newGame){
+    	game = newGame;
+    }
+    
+    public void setLabelText(int labelno, String text){
+    	switch(labelno){
+    	case 1: label1.setText(text);
+    	case 2: label2.setText(text);
+    	case 3: label3.setText(text);
+    	default: break;
+    	}
+    }
+    public JFrame getFrame(){
+    	return frame;
+    }
+    
     
 }

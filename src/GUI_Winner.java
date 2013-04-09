@@ -9,7 +9,7 @@ public class GUI_Winner implements ActionListener
     private JFrame parentFrame;
     private JFrame Congra;
     private JLabel Des;
-    private JLabel SecretWord;
+    protected JLabel SecretWord;
     private JLabel GameResult;
     private JButton ReturnBtn;
     private ImageIcon background;

@@ -21,7 +21,7 @@ public class EvilHangmanTest {
 		assertEquals("", hm.getSecretWord()); // unknown at first
 		assertEquals(8, hm.numGuessesRemaining());
 		assertEquals("_ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("", hm.lettersGuessed());
+		assertEquals(0, hm.lettersGuessed().size());
 		assertFalse(hm.gameOver());
 	}
 
@@ -33,7 +33,8 @@ public class EvilHangmanTest {
 
 		assertEquals(7, hm.numGuessesRemaining());
 		assertEquals("_ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("S", hm.lettersGuessed());
+		assertEquals("S", hm.lettersGuessed().get(0).toString());
+		assertEquals(1, hm.lettersGuessed().size());
 		assertFalse(hm.gameOver());
 	}
 	
@@ -46,7 +47,9 @@ public class EvilHangmanTest {
 
 		assertEquals(6, hm.numGuessesRemaining());
 		assertEquals("_ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("SP", hm.lettersGuessed());
+		assertEquals("S", hm.lettersGuessed().get(0).toString());
+		assertEquals("P", hm.lettersGuessed().get(1).toString());
+		assertEquals(2, hm.lettersGuessed().size());
 		assertFalse(hm.gameOver());
 	}
 	
@@ -56,7 +59,7 @@ public class EvilHangmanTest {
 		assertFalse(correct);
 		assertEquals(8, hm.numGuessesRemaining());
 		assertEquals("_ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("", hm.lettersGuessed());
+		assertEquals(0, hm.lettersGuessed().size());
 		assertFalse(hm.gameOver());
 	}
 
@@ -69,7 +72,8 @@ public class EvilHangmanTest {
 		
 		assertEquals(7, hm.numGuessesRemaining());
 		assertEquals("_ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("A", hm.lettersGuessed());
+		assertEquals("A", hm.lettersGuessed().get(0).toString());
+		assertEquals(1, hm.lettersGuessed().size());
 		assertFalse(hm.gameOver());
 	}
 	

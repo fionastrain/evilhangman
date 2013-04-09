@@ -12,6 +12,7 @@ public class Start extends JPanel
     static JFrame frame;
     String numLetters, numGuesses;
     private JComboBox patternList, patternList1;
+    protected GUI_PlayGame gui;
  
     public Start() {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -91,7 +92,8 @@ public class Start extends JPanel
     	numLetters = (String)(patternList.getSelectedItem());
     	numGuesses = (String)(patternList1.getSelectedItem());
     	frame.dispose();
-    	new GUI_PlayGame(Integer.parseInt(numLetters), Integer.parseInt(numGuesses)).show();
+    	gui = new GUI_PlayGame(Integer.parseInt(numLetters), Integer.parseInt(numGuesses));
+    	gui.show();
 
     }
 

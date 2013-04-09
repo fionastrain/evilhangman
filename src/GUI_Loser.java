@@ -8,7 +8,7 @@ public class GUI_Loser implements ActionListener
 {
     private JFrame parentFrame;
     private JFrame Frame;
-    private JLabel secretWordLabel;
+    protected JLabel secretWordLabel;
     private JLabel gameResultLabel;
     private JButton rtnBtn;
 
