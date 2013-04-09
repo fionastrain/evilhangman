@@ -79,9 +79,7 @@ public class GUI_PlayGame implements ActionListener{
     	label2.setText("Secret Word: "+ gstate.currentstate);
     	label3.setText("Guesses Remaining: "+ gstate.numGuessesLeft);
     	if(gstate.gameFinished){
-    		System.out.println("finished in gui");
     		if(gstate.gameWon){
-    			System.out.println("gui knows won");
     			new GUI_Result(gstate.currentstate, getFrame(),true);
     		}
     		else{

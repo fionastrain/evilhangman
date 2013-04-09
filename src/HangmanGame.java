@@ -17,6 +17,8 @@ public abstract class HangmanGame {
 	 	}
     }
      
+    public abstract boolean isWin(); 
+    
     public String getSecretWord(){
     	return gameState.getSecretWord();
     }
@@ -26,7 +28,7 @@ public abstract class HangmanGame {
     }
     
     public int numLettersRemaining(){
-    	return gameState.getDistinctLetters();
+    	return gameState.numLettersLeft;
     }
     
     public String displayGameState(){

@@ -26,10 +26,10 @@ public class EvilHangMan extends HangmanGame {
 		gameState.updateCurrentState();
 		Scanner.close();
 	}
-
-	//public boolean isWin() {
-		//return false;
-	//}
+	
+	public boolean isWin(){
+		return false;
+	}
 
 	public boolean makeGuess(char ch) {
 		GuessResult = false;
@@ -59,9 +59,7 @@ public class EvilHangMan extends HangmanGame {
 			if (!GuessResult) {
 				gameState.letterGuessHistory.add(letterGuess);
 			}
-
-		};
-		
+		}
 		return GuessResult;
 	}
 

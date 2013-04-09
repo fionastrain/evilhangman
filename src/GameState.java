@@ -14,18 +14,15 @@ public class GameState {
 	private HashSet<Character> wordLetters = new HashSet<Character>();
 	protected boolean gameFinished = false;
 	protected boolean gameWon = false;
-	//protected HangmanGame game;
 	
 	public GameState(int letters, int guesses){
 		wordLength = letters;
 		numGuessesLeft = guesses;
 		initializeDistinctLetters();
-	//	numLettersLeft = getDistinctLetters();
 		letterGuessHistory = new ArrayList<Character>();
 		correctLettersGuessed = new HashSet<Character>();
 		uniqueCharsWord = new ArrayList<Character>();
 		updateCurrentState();
-		//game = new EvilHangMan(letters, this);
 	}
 	
 	public void initializeDistinctLetters() {
@@ -40,11 +37,6 @@ public class GameState {
 		numLettersLeft =  wordLetters.size();
 	}
 	
-	public int getDistinctLetters(){
-		return numLettersLeft;
-	}
-	
-
 	public void updateCurrentState(){
 		boolean finished = true;
 		currentstate="";
@@ -63,18 +55,13 @@ public class GameState {
 				currentstate = currentstate + "_ ";
 			}
 		}
-		if(finished == true){
-			System.out.println("set to won");
+		if(finished == true || numGuessesLeft == 0){
 			gameFinished = true;
-			gameWon = true;
 			checkGameOver();
 		}
-		if(numGuessesLeft == 0){
-			gameFinished = true;
-		}
-	
 	}
-	 public boolean checkGameOver(){
+	 
+	public boolean checkGameOver(){
 	        if(gameFinished && numGuessesLeft > 0){
 	            gameWon = true;
 	        	return true;
@@ -97,9 +84,6 @@ public class GameState {
 		}
 	}
 	
-	 public void receiveInput(char inputLetter) {
-			// TODO Auto-generated method stub	
-	 }
 	  /**
      * A String representing the letters guessed so far in the order they were guessed.
      * Duplicates should not be added.

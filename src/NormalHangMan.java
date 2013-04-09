@@ -22,7 +22,7 @@ public class NormalHangMan extends HangmanGame
      */
     public NormalHangMan(GameState gstate){
     	gameState = gstate;
-    	this.secretWord = gameState.secretWord;
+    	this.secretWord = gameState.getSecretWord();
     }   
 
     public boolean isWin(){
@@ -33,10 +33,11 @@ public class NormalHangMan extends HangmanGame
     }
     
     public boolean makeGuess(char ch) {
+    	
     	if (Character.isLetter(ch) == false) return false;
         boolean correctLetter = false;
         Character lg = ch;
-        if(gameState.secretWord.contains(lg.toString())){
+        if(secretWord.contains(lg.toString())){
         	correctLetter = true;
         	//GameState add to correct letters guessed, update current state
         }
