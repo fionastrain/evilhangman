@@ -10,12 +10,14 @@ import org.junit.Test;
 
 public class NormalHangmanTest {
 	
-	private NormalHangMan hm;
+	private HangmanGame hm;
 	private final String WORD = "SPONGEBOB";
 
 	@Before
 	public void setUp() throws Exception {
-		hm = new NormalHangMan(WORD, 8, new ArrayList<Character>());
+		Game game = new Game(9,8, false);
+		game.setWord(WORD);
+		hm = game.getHangman();
 	}
 	
 	@Test
@@ -31,10 +33,10 @@ public class NormalHangmanTest {
 
 	@Test
 	public void testCorrectGuess1() {
+		
 		// make a correct guess and see if everything is updated
 		boolean correct = hm.makeGuess('S');
 		assertTrue(correct);
-
 		assertEquals(8, hm.numGuessesRemaining());
 		assertEquals(6, hm.numLettersRemaining());
 		assertEquals("S _ _ _ _ _ _ _ _ ", hm.displayGameState());

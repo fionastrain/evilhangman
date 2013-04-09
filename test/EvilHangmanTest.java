@@ -6,13 +6,17 @@ import org.junit.Test;
 
 
 public class EvilHangmanTest {
-	
-	private EvilHangMan hm;
+	private GameState gstate;
+	private Game game;
+	private HangmanGame hm;
 	private final String WORD = "SPONGEBOB";
 
 	@Before
 	public void setUp() throws Exception {
-		hm = new EvilHangMan(6, 8);
+		//hm = new EvilHangMan(6);
+		game = new Game(6,8, true);
+		hm = game.getHangman();
+		gstate = game.getGameState();
 	}
 	
 	@Test
@@ -20,7 +24,7 @@ public class EvilHangmanTest {
 		// call the constructor and see that the initial values are correct
 		assertEquals("", hm.getSecretWord()); // unknown at first
 		assertEquals(8, hm.numGuessesRemaining());
-		assertEquals("_ _ _ _ _ _ ", hm.displayGameState());
+		assertEquals("_ _ _ _ _ _ ", gstate.currentstate);
 		assertEquals(0, hm.lettersGuessed().size());
 		assertFalse(hm.gameOver());
 	}
@@ -31,10 +35,10 @@ public class EvilHangmanTest {
 		boolean correct = hm.makeGuess('S');
 		assertFalse(correct);
 
-		assertEquals(7, hm.numGuessesRemaining());
-		assertEquals("_ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("S", hm.lettersGuessed().get(0).toString());
-		assertEquals(1, hm.lettersGuessed().size());
+		assertEquals(7, hm.gameState.numGuessesRemaining());
+		assertEquals("_ _ _ _ _ _ ", gstate.currentstate);
+		assertEquals("S", hm.gameState.lettersGuessed().get(0).toString());
+		assertEquals(1, hm.gameState.lettersGuessed().size());
 		assertFalse(hm.gameOver());
 	}
 	
@@ -45,11 +49,11 @@ public class EvilHangmanTest {
 		correct = hm.makeGuess('P');
 		assertFalse(correct);
 
-		assertEquals(6, hm.numGuessesRemaining());
-		assertEquals("_ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("S", hm.lettersGuessed().get(0).toString());
-		assertEquals("P", hm.lettersGuessed().get(1).toString());
-		assertEquals(2, hm.lettersGuessed().size());
+		assertEquals(6, hm.gameState.numGuessesRemaining());
+		assertEquals("_ _ _ _ _ _ ", gstate.currentstate);
+		assertEquals("S", hm.gameState.lettersGuessed().get(0).toString());
+		assertEquals("P", hm.gameState.lettersGuessed().get(1).toString());
+		assertEquals(2, hm.gameState.lettersGuessed().size());
 		assertFalse(hm.gameOver());
 	}
 	
@@ -57,9 +61,9 @@ public class EvilHangmanTest {
 	public void testIllegalCharGuess() {
 		boolean correct = hm.makeGuess('?');
 		assertFalse(correct);
-		assertEquals(8, hm.numGuessesRemaining());
-		assertEquals("_ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals(0, hm.lettersGuessed().size());
+		assertEquals(8, hm.gameState.numGuessesRemaining());
+		assertEquals("_ _ _ _ _ _ ", gstate.currentstate);
+		assertEquals(0, hm.gameState.lettersGuessed().size());
 		assertFalse(hm.gameOver());
 	}
 
@@ -70,10 +74,10 @@ public class EvilHangmanTest {
 		correct = hm.makeGuess('A');
 		assertFalse(correct);
 		
-		assertEquals(7, hm.numGuessesRemaining());
-		assertEquals("_ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("A", hm.lettersGuessed().get(0).toString());
-		assertEquals(1, hm.lettersGuessed().size());
+		assertEquals(7, hm.gameState.numGuessesRemaining());
+		assertEquals("_ _ _ _ _ _ ", gstate.currentstate);
+		assertEquals("A", hm.gameState.lettersGuessed().get(0).toString());
+		assertEquals(1, hm.gameState.lettersGuessed().size());
 		assertFalse(hm.gameOver());
 	}
 	
@@ -81,17 +85,19 @@ public class EvilHangmanTest {
 	public void testSecretWord() {
 		// after one guess, the secret word changes 
 		hm.makeGuess('A');
-		assertEquals("BEBOPS", hm.getSecretWord()); // don't ask how I know that
+		assertEquals("BEBOPS", hm.gameState.getSecretWord()); // don't ask how I know that
 		// after another guess, it changes again! 
 		hm.makeGuess('B');
-		assertEquals("CEDERS", hm.getSecretWord()); // don't ask how I know that
+		assertEquals("CEDERS", hm.gameState.getSecretWord()); // don't ask how I know that
 	}
 
 	
 	@Test
 	public void testWin() {
 		// correctly guess the word and see if the game ends
-		hm = new EvilHangMan(4, 16);
+		game = new Game(4,14, true);
+		hm = game.getHangman();
+		gstate = game.getGameState();
 		hm.makeGuess('A');
 		hm.makeGuess('E');
 		hm.makeGuess('I');
@@ -124,14 +130,14 @@ public class EvilHangmanTest {
 	@Test
 	public void testLoss() {
 		// use up all guesses and see if game ends
-		hm.makeGuess('A');
-		hm.makeGuess('C');
-		hm.makeGuess('D');
-		hm.makeGuess('F');
-		hm.makeGuess('H');
-		hm.makeGuess('I');
-		hm.makeGuess('J');
-		hm.makeGuess('K');
+		game.controller('A');
+		game.controller('C');
+		game.controller('D');
+		game.controller('F');
+		game.controller('H');
+		game.controller('I');
+		game.controller('J');
+		game.controller('K');
 
 		assertTrue(hm.gameOver());
 		assertFalse(hm.isWin());

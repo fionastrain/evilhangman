@@ -20,29 +20,13 @@ public class NormalHangMan extends HangmanGame
      * @param secretWord the word that the player is trying to guess
      * @param numGuesses the number of guesses allowed
      */
-    public NormalHangMan(String secretWord, int numGuesses, ArrayList<Character> LetterHistory){
-        this.secretWord = secretWord;
-        numGuessesLeft = numGuesses;
-        numLettersLeft = secretWord.length();
-        for(int i = 0; i < secretWord.length(); i++)
-        {
-            currentState += "_ ";
-            for(int j = i; j > 0; j--)
-            {
-                if(secretWord.charAt(i) == secretWord.charAt(j-1))
-                {
-                    numLettersLeft--;//If the letter appears many times in the secret word, it will be counted just once.
-                    break;
-                }
-            }
-        }
-        letterGuessHistory = LetterHistory;
+    public NormalHangMan(GameState gstate){
+    	gameState = gstate;
+    	this.secretWord = gameState.secretWord;
     }   
 
- 
-  
     public boolean isWin(){
-        if(numGuessesLeft == 0)
+        if(gameState.numGuessesLeft == 0)
             return false;//if the user have no chance to guess again, it means the user loses.
         else
             return true;
@@ -51,39 +35,26 @@ public class NormalHangMan extends HangmanGame
     public boolean makeGuess(char ch) {
     	if (Character.isLetter(ch) == false) return false;
         boolean correctLetter = false;
-        letterGuess = ch;
-        int i;
-        for(i = 0; i < secretWord.length(); i++){
-            if(secretWord.charAt(i) == letterGuess)//if the user guess right, adjust the current state.
-            {
-            //    String temp = "";
-              //  for(int j = 0; j < secretWord.length(); j++)
-                //{
-                  //  if(secretWord.charAt(j) == ch)
-                   // {
-                     //   temp = temp + ch + " ";
-                    //}
-                    //else
-                    //{
-                      //  temp = temp + currentState.charAt(2*j) + currentState.charAt(2*j+1);              
-                    //}
-                //}
-                //currentState = temp;
-                correctLetter = true;
-            }
+        Character lg = ch;
+        if(gameState.secretWord.contains(lg.toString())){
+        	correctLetter = true;
+        	//GameState add to correct letters guessed, update current state
         }
-        if(!RepeatInput(ch))
-        {
-            letterGuessHistory.add(letterGuess);
+        if(!RepeatInput(ch)) {
+           gameState.letterGuessHistory.add(lg);
             if(correctLetter)
             {
-                numLettersLeft--;
+              gameState.addToCorrectLetters(ch); 
             }
             else
             {
-                numGuessesLeft--;
+               gameState.numGuessesLeft--;
             }
         }
+        else{
+        	correctLetter = false;
+        }
+       gameState.updateCurrentState();
         return correctLetter;
     }
     

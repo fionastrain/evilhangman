@@ -6,11 +6,11 @@ public class EvilHangMan extends HangmanGame {
 	private ArrayList<String> Wordlist = new ArrayList<String>();// to store the dictionary of possible words
 	private int secretStringLength;// the length of the secret string
 	private boolean GuessResult = false;
+	
 
-	public EvilHangMan(int StringLength, int numGuesses) {
-		//numLettersLeft=26;
-		numGuessesLeft = numGuesses;
-		secretStringLength = StringLength;
+	public EvilHangMan(GameState gstate) {
+		gameState = gstate;
+		secretStringLength = gstate.wordLength;
 		Scanner Scanner = null;
 		try {
 			Scanner = new Scanner(new File("dictionary.txt"));// read the dictionary
@@ -19,27 +19,22 @@ public class EvilHangMan extends HangmanGame {
 		}
 		while (Scanner.hasNext()) {
 			String temp = Scanner.nextLine().toUpperCase();
-			if (temp.length() == StringLength) {
+			if (temp.length() == secretStringLength) {
 				Wordlist.add(temp);
 			}
 		}
-
-		for (int i = 0; i < StringLength; i++) {
-			currentState += "_ ";
-		}
+		gameState.updateCurrentState();
 		Scanner.close();
 	}
 
-	public boolean isWin() {
-		return false;
-	}
+	//public boolean isWin() {
+		//return false;
+	//}
 
 	public boolean makeGuess(char ch) {
 		GuessResult = false;
 		letterGuess = ch;
 		if (Character.isLetter(ch) && !RepeatInput(ch)) {
-			// adjust the Wordlist in order to avoid the word with the letter
-			// user guessed
 			Iterator<String> it = Wordlist.iterator();
 			while (it.hasNext()){
 				String word = it.next();
@@ -54,18 +49,18 @@ public class EvilHangMan extends HangmanGame {
 			}
 			
 			if (Wordlist.size() == 1) {
-				secretWord = Wordlist.get(0);
+				gameState.secretWord = Wordlist.get(0);
 				GuessResult = true;
 				}
 			else {
-				secretWord = Wordlist.get(0);
-				numGuessesLeft--;
+				gameState.secretWord = Wordlist.get(0);
+				gameState.numGuessesLeft--;
 			}
 			if (!GuessResult) {
-				letterGuessHistory.add(letterGuess);
+				gameState.letterGuessHistory.add(letterGuess);
 			}
 
-		} else return false;
+		};
 		
 		return GuessResult;
 	}

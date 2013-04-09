@@ -6,77 +6,50 @@ import javax.swing.border.*;
 import java.util.*;
 import java.text.SimpleDateFormat;
  
-
-public class Start extends JPanel
-                           implements ActionListener {
+public class Start extends JPanel implements ActionListener {
     static JFrame frame;
     String numLetters, numGuesses;
-    private JComboBox patternList, patternList1;
-    protected GUI_PlayGame gui;
+    private JComboBox numLettersOptBox, numGuessesOptBox;
  
     public Start() {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        String[] numLettersOptions = {
-                 "4",
-                 "5",
-                 "6",
-                 "7",
-                 "8",
-                 "9",
-                 "10",
-                 };
+        String[] numLettersOptions = {"4","5","6","7","8","9","10",};
         numLetters = numLettersOptions[0];
  
-        String[] numGuessesOptions = {
-                "4",
-                "5",
-                "6",
-                "7",
-                "8",
-                "9",
-                "10",
-                "11",
-                "12",
-                "13",
-                "14",
-                "15",
-                "16",
-                };
+        String[] numGuessesOptions = { "4", "5", "6", "7", "8","9", "10", "11", "12",
+                					"13", "14","15", "16", };
         numGuesses = numGuessesOptions[0];
 
-        JLabel patternLabel1 = new JLabel("Select the number of letters");
-        JLabel patternLabel2 = new JLabel("that will be in the word:");
+        JLabel patternLabelLetters1 = new JLabel("Select the number of letters");
+        JLabel patternLabelLetters2 = new JLabel("that will be in the word:");
  
-        patternList = new JComboBox(numLettersOptions);
-        patternList.setEditable(true);
+        numLettersOptBox = new JComboBox(numLettersOptions);
+        numLettersOptBox.setEditable(true);
  
-        JLabel patternLabel3 = new JLabel("Select the number of incorrect");
-        JLabel patternLabel4 = new JLabel("guesses that are allowed:");
+        JLabel patternLabelGuesses1 = new JLabel("Select the number of incorrect");
+        JLabel patternLabelGuesses2 = new JLabel("guesses that are allowed:");
  
-        patternList1 = new JComboBox(numGuessesOptions);
-        patternList1.setEditable(true);
+        numGuessesOptBox = new JComboBox(numGuessesOptions);
+        numGuessesOptBox.setEditable(true);
         
-        JPanel patternPanel = new JPanel();
-        patternPanel.setLayout(new BoxLayout(patternPanel,
-                               BoxLayout.PAGE_AXIS));
-        patternPanel.add(patternLabel1);
-        patternPanel.add(patternLabel2);
-        patternList.setAlignmentX(Component.LEFT_ALIGNMENT);
-        patternPanel.add(patternList);
+        JPanel lettersPanel = new JPanel();
+        lettersPanel.setLayout(new BoxLayout(lettersPanel,BoxLayout.PAGE_AXIS));
+        lettersPanel.add(patternLabelLetters1);
+        lettersPanel.add(patternLabelLetters2);
+        numLettersOptBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+        lettersPanel.add(numLettersOptBox);
  
-        
         JPanel guessPanel = new JPanel();
         guessPanel.setLayout(new BoxLayout(guessPanel,
                                BoxLayout.PAGE_AXIS));
-        guessPanel.add(patternLabel3);
-        guessPanel.add(patternLabel4);
-        patternList1.setAlignmentX(Component.LEFT_ALIGNMENT);
-        guessPanel.add(patternList1);
+        guessPanel.add(patternLabelGuesses1);
+        guessPanel.add(patternLabelGuesses2);
+        numGuessesOptBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+        guessPanel.add(numGuessesOptBox);
         
+        lettersPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
  
-        patternPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
- 
-        add(patternPanel);
+        add(lettersPanel);
         add(guessPanel);
         add(Box.createRigidArea(new Dimension(0, 10)));
         
@@ -85,19 +58,15 @@ public class Start extends JPanel
         add(button);
  
         setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
     } 
  
     public void actionPerformed(ActionEvent e) {
-    	numLetters = (String)(patternList.getSelectedItem());
-    	numGuesses = (String)(patternList1.getSelectedItem());
+    	numLetters = (String)(numLettersOptBox.getSelectedItem());
+    	numGuesses = (String)(numGuessesOptBox.getSelectedItem());
     	frame.dispose();
-    	gui = new GUI_PlayGame(Integer.parseInt(numLetters), Integer.parseInt(numGuesses));
-    	gui.show();
-
+    	new Game(Integer.parseInt(numLetters), Integer.parseInt(numGuesses), true);
     }
 
- 
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the
@@ -120,6 +89,5 @@ public class Start extends JPanel
  
     public static void main(String[] args) {
     	createAndShowGUI();
-
     }
 }
